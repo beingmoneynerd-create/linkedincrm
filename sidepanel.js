@@ -18,7 +18,9 @@ class SidePanelManager {
       profileUrl: 'LinkedIn URL',
       profilePicture: 'Profile Picture',
       tags: 'Tag',
-      notes: 'Notes'
+      notes: 'Notes',
+      contactDate: 'Contact Date',
+      followUpDate: 'Follow Up On'
     };
     this.tagStorage = new TagStorageService();
     this.selectedSuggestionIndex = -1;
@@ -73,6 +75,14 @@ class SidePanelManager {
 
     document.getElementById('email').addEventListener('blur', () => {
       this.validateField('email');
+    });
+
+    document.getElementById('followUpDate').addEventListener('blur', () => {
+      this.validateField('followUpDate');
+    });
+
+    document.getElementById('followUpDate').addEventListener('change', () => {
+      this.validateField('followUpDate');
     });
 
     // Auto-save configuration on input
@@ -664,7 +674,9 @@ class SidePanelManager {
       phone: document.getElementById('phone').value.trim(),
       tags: document.getElementById('tags').value.trim(),
       notes: document.getElementById('notes').value.trim(),
-      profilePicture: this.currentProfileData.profilePicture || ''
+      profilePicture: this.currentProfileData.profilePicture || '',
+      contactDate: document.getElementById('contactDate').value.trim(),
+      followUpDate: document.getElementById('followUpDate').value.trim()
     };
   }
 
@@ -686,6 +698,12 @@ class SidePanelManager {
       this.clearFieldError('email');
     }
 
+    // Validate follow-up date if provided
+    const followUpDate = document.getElementById('followUpDate').value.trim();
+    if (followUpDate) {
+      isValid = this.validateField('followUpDate') && isValid;
+    }
+
     return isValid;
   }
 
@@ -704,6 +722,17 @@ class SidePanelManager {
     if (fieldId === 'email' && value && !this.isValidEmail(value)) {
       this.showFieldError(fieldId, 'Please enter a valid email address');
       return false;
+    }
+
+    if (fieldId === 'followUpDate' && value) {
+      const selectedDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate <= today) {
+        this.showFieldError(fieldId, 'Follow up date must be in the future');
+        return false;
+      }
     }
 
     this.clearFieldError(fieldId);
@@ -753,8 +782,8 @@ class SidePanelManager {
    * Clear manual entry fields only
    */
   clearManualFields() {
-    const manualFields = ['email', 'phone', 'tags', 'notes'];
-    
+    const manualFields = ['email', 'phone', 'tags', 'notes', 'contactDate', 'followUpDate'];
+
     manualFields.forEach(fieldId => {
       const field = document.getElementById(fieldId);
       if (field) {
@@ -908,7 +937,9 @@ class SidePanelManager {
       email: ['email', 'singleLineText', 'multilineText'],
       phone: ['phoneNumber', 'singleLineText', 'multilineText'],
       tags: ['multipleSelects', 'singleSelect', 'singleLineText', 'multilineText'],
-      notes: ['multilineText', 'richText', 'singleLineText']
+      notes: ['multilineText', 'richText', 'singleLineText'],
+      contactDate: ['date', 'dateTime', 'singleLineText'],
+      followUpDate: ['date', 'dateTime', 'singleLineText']
     };
 
     // Update each field mapping badge

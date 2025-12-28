@@ -137,6 +137,20 @@
               <span class="field-type-badge" id="mapping-notes-type"></span>
               <div class="mapping-error" id="mapping-notes-error"></div>
             </div>
+
+            <div class="mapping-item">
+              <label for="mapping-contactDate" class="mapping-label">Contact Date →</label>
+              <input type="text" id="mapping-contactDate" class="field-input mapping-input" placeholder="Contact Date">
+              <span class="field-type-badge" id="mapping-contactDate-type"></span>
+              <div class="mapping-error" id="mapping-contactDate-error"></div>
+            </div>
+
+            <div class="mapping-item">
+              <label for="mapping-followUpDate" class="mapping-label">Follow Up On →</label>
+              <input type="text" id="mapping-followUpDate" class="field-input mapping-input" placeholder="Follow Up On">
+              <span class="field-type-badge" id="mapping-followUpDate-type"></span>
+              <div class="mapping-error" id="mapping-followUpDate-error"></div>
+            </div>
           </div>
           
           <button type="button" class="btn btn--secondary" id="testMappings">
@@ -300,12 +314,33 @@
         
         <div class="field-group">
           <label for="notes" class="field-label">Notes</label>
-          <textarea 
-            id="notes" 
+          <textarea
+            id="notes"
             class="field-textarea"
             rows="4"
             placeholder="Add any additional notes about this contact..."
           ></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="contactDate" class="field-label">Contact Date</label>
+          <input
+            type="date"
+            id="contactDate"
+            class="field-input"
+          >
+          <div class="field-error" id="contactDateError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="followUpDate" class="field-label">Follow Up On</label>
+          <input
+            type="date"
+            id="followUpDate"
+            class="field-input"
+          >
+          <div class="field-hint">Must be a future date</div>
+          <div class="field-error" id="followUpDateError"></div>
         </div>
       </div>
 
